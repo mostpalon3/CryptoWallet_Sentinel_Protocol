@@ -16,7 +16,7 @@ body{
     padding: 0.5rem 1rem;
 }
 
-.heade_log img{
+.heade_log_img{
     width: 2rem;
     height: 2rem;
     border-radius: 0.5rem;
@@ -120,7 +120,7 @@ body{
     background-color: #171717;
     text-align: center;
     padding: 2rem;
-    display: block;
+    display: block; 
 }
 
 .create_popUp{
@@ -387,7 +387,7 @@ a{
     cursor: pointer;
 }
 
-.home_header img{
+.home_header_img{
     margin-top: 1rem;
     width: 50px;
     height: 50px;
@@ -426,7 +426,7 @@ a{
     padding: 1rem 0;
 }
 
-.assets_items img{
+.assets_items_img{
     width: 20px ;
     height: 20px;
     border: 1px solid lightgreen;

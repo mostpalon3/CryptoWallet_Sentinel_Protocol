@@ -1,3 +1,5 @@
+import { ethers } from "./node_modules/ethers/dist/ethers.min.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("accountList").addEventListener("click", changeAccount);
   document.getElementById("userAddress").addEventListener("click", copyAddress);
@@ -6,18 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("network_item").addEventListener("click", getSelectedNetwork);
   document.getElementById("add_network").addEventListener("click", setNetwork);
   document.getElementById("loginAccount").addEventListener("click", loginUser);
-  document.getElementById("accountCreate").addEventListener("click", loginUser);
+  document.getElementById("accountCreate").addEventListener("click", createUser);
   document.getElementById("openCreate").addEventListener("click", openCreate);
   document.getElementById("sign_up").addEventListener("click", signUp);
   document.getElementById("login_up").addEventListener("click", login);
   document.getElementById("logout").addEventListener("click", logout);
-  document.getElementById("open_transfer").addEventListener("click", openTransfer);
+  document.getElementById("open_Transfer").addEventListener("click", openTransfer);
   document.getElementById("goBack").addEventListener("click", goBack);
   document.getElementById("open_Import").addEventListener("click", openImport);
   document.getElementById("open_assets").addEventListener("click", openAssets);
   document.getElementById("open_activity").addEventListener("click", openActivity);
   document.getElementById("goHomePage").addEventListener("click", goHomePage);
   document.getElementById("openAccountImport").addEventListener("click", openImportModel);
+  document.getElementById("add_new_token").addEventListener("click", addToken);
   document.getElementById("close_import_account").addEventListener("click", closeImportModel);
   document.getElementById("add_New_Account").addEventListener("click", addAccount);
 });
@@ -69,13 +72,13 @@ function handler() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("check_balance")
-    .addEventListener("click", checkBalance);
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   document
+//     .getElementById("check_balance")
+//     .addEventListener("click", checkBalance);
+// });
 
-function checkBalance() {
+function checkBalance(address) {
   //Provider
   const provider = new ethers.providers.JsonRpcProvider(
     providerURL
@@ -352,6 +355,7 @@ function addAccount() {
 }
 
 function myFunction() {
+  console.log(ethers);
     const str = localStorage.getItem('userWallet');
     const parseObj = JSON.parse(str);
 
