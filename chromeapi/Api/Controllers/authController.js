@@ -9,7 +9,7 @@ const signToken = (id) => {
     });
 };
 
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
     const token = signToken(user._id);
 
     res.cookie('jwt', token, {
@@ -18,29 +18,33 @@ const createSendToken = (user, statusCode, res) => {
         secure: req.secure || req.headers["x-forwarded-proto"] === "https",
     });
 
-    //Remove password from output
+    // Remove password from output
     user.password = undefined;
 
-    res.satus(statusCode).json({
+    res.status(statusCode).json({
         status: 'success',
         token,
         data: {
             user,
         },
     });
- }
+}
 
- exports.signUp = async (req, res, next) => {
-    const newUser = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        passwordConfirm: req.body.passwordConfirm,
-        address: req.body.address,
-        private_key: req.body.private_key,
-        mnemonic: req.body.mnemonic,
-    });
-    createSendToken(newUser, 201, req,res);
+exports.signUp = async (req, res, next) => {
+    try {
+        const newUser = await User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            passwordConfirm: req.body.passwordConfirm,
+            address: req.body.address,
+            private_key: req.body.private_key,
+            mnemonic: req.body.mnemonic,
+        });
+        createSendToken(newUser, 201, req, res);
+    } catch (error) {
+        next(error);
+    }
 };
 
 exports.login = async (req, res, next) => {
@@ -69,13 +73,13 @@ exports.login = async (req, res, next) => {
 };
 
 exports.allToken = async (req, res, next) => {
-    const token = await Token.find();
+    const tokens = await Token.find();
 
     // SEND RESPONSE
     res.status(200).json({
         status: 'success',
         data: {
-            token,
+            tokens,
         },
     });
 }
@@ -96,19 +100,19 @@ exports.addToken  = async (req, res, next) => {
 }
 
 exports.allAccount = async (req, res, next) => {
-    const account = await Account.find();
+    const accounts = await Account.find();
 
     // SEND RESPONSE
     res.status(200).json({
         status: 'success',
         data: {
-            account,
+            accounts,
         },
     });
 }
 
 exports.createAccount = async (req, res, next) => {
-    const account = await Account.create({
+    const accounts = await Account.create({
         privateKey: req.body.privateKey,
         address: req.body.address,
     });
@@ -116,7 +120,7 @@ exports.createAccount = async (req, res, next) => {
     res.status(201).json({
         status: 'success',
         data: {
-            account,
+            accounts,
         },
     });
 }

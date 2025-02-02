@@ -39,7 +39,7 @@ function handler() {
   document.getElementById("transfer_center").style.display = "flex";
 
   const amount = document.getElementById("amount").value;
-  const address = document.getElementById("address").value;
+  address = document.getElementById("address").value;
 //   const private_key = document.getElementById("private_key").value;
   // const private_key = "c31f7ef7384419859659c691ac72a84500143b21be1bfde31165f678acd75614";
   // const testAccount = "0x1D9e26033fa2cBEf118EDfAE3361Ec5BF738C16A";
@@ -72,15 +72,9 @@ function handler() {
   });
 }
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   document
-//     .getElementById("check_balance")
-//     .addEventListener("click", checkBalance);
-// });
-
 function checkBalance(address) {
   //Provider
-  const provider = new ethers.providers.JsonRpcProvider(
+  const provider = new ethers.JsonRpcProvider(
     providerURL
   );
   provider.getBalance(address).then((balance) => {
@@ -102,16 +96,16 @@ function getSelectedNetwork(e) {
   const element = document.getElementById("selected_network");
   element.innerHTML = e.target.innerHTML;
 
-  if (e.target.innerHTML === "Ethereum Mainnet") {
+  if (e.target.innerHTML === "Polygon Amoy") {
+    providerURL = "https://polygon-amoy.g.alchemy.com/v2/iZxSf_B6FkbG4Q76H19Essc_hxN2s0rI";
+    document.getElementById("network").style.display = "none";
+  }
+  else if (e.target.innerHTML === "Ethereum Mainnet") {
     providerURL = "https://eth-mainnet.g.alchemy.com/v2/iZxSf_B6FkbG4Q76H19Essc_hxN2s0rI";
     document.getElementById("network").style.display = "none";
   }
   else if (e.target.innerHTML === "Polygon PoS") {
     providerURL = "https://polygon-mainnet.g.alchemy.com/v2/iZxSf_B6FkbG4Q76H19Essc_hxN2s0rI";
-    document.getElementById("network").style.display = "none";
-  }
-  else if (e.target.innerHTML === "Polygon Amoy") {
-    providerURL = "https://polygon-amoy.g.alchemy.com/v2/iZxSf_B6FkbG4Q76H19Essc_hxN2s0rI";
     document.getElementById("network").style.display = "none";
   }
   else if (e.target.innerHTML === "Solana") {
@@ -155,7 +149,9 @@ function openCreate() {
   document.getElementById("create_popUp").style.display = "block";
 }
 
-function signUp() {
+function signUp(event) {
+  event.preventDefault();  // Prevent default form submission
+
   const name = document.getElementById("sign_up_name").value;
   const email = document.getElementById("sign_up_email").value;
   const password = document.getElementById("sign_up_password").value;
@@ -169,8 +165,8 @@ function signUp() {
   if(wallet.address) {
     console.log(wallet);
 
-    //API CALL
-    const url = 'http://localhost:3000/api/v1/signup';
+    // API CALL
+    const url = 'http://localhost:3000/api/v1/user/signup';
 
     const data = {
       name: name,
@@ -179,8 +175,9 @@ function signUp() {
       passwordConfirm: passwordConfirm,
       address: wallet.address,
       private_key: wallet.privateKey,
-      mnemonic : wallet.mnemonic.phrase
+      mnemonic: wallet.mnemonic.phrase
     };
+    console.log(data);
 
     fetch(url, {
       method: 'POST',
@@ -188,25 +185,33 @@ function signUp() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    }).then((response) => response.json()).then((data) => {
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to sign up');
+      }
+      return response.json();
+    })
+    .then((wallet) => {
       document.getElementById("createAddress").innerHTML = wallet.address;
-      document.getElementById("createPrivateKey").innerHTML = wallet.privateKey;
-      document.getElementById("createMnemonic").innerHTML = wallet.mnemonic.phrase;
+      document.getElementById("createPrivateKey").innerHTML = wallet.privateKey; // You might want to mask this or handle it carefully
+      document.getElementById("createMnemonic").innerHTML = wallet.mnemonic; // Same for mnemonic
+
       document.getElementById("center").style.display = "none";
       document.getElementById("sign_up").style.display = "none";
 
       const userWallet = {
         address: wallet.address,
         privateKey: wallet.privateKey,
-        mnemonic: wallet.mnemonic.phrase
-      }
+        mnemonic: wallet.mnemonic
+      };
 
       const jsonObj = JSON.stringify(userWallet);
       localStorage.setItem('userWallet', jsonObj);
 
       document.getElementById("goHomePage").style.display = "block";
-      window.location.reload();
-    }).catch(console.error(error));
+    })
+    .catch((error) => console.log("Error:", error));
   }
 }
 
@@ -218,7 +223,7 @@ function login() {
   const password = document.getElementById("login_password").value;
 
   //API CALL
-  const url = 'http://localhost:3000/api/v1/login';
+  const url = 'http://localhost:3000/api/v1/user/login';
   const data = {
     email: email,
     password: password
@@ -376,7 +381,7 @@ function myFunction() {
     fetch(url).then((response) => response.json()).then((data) => {
       let element = "";
 
-      data.data.tokens.map((token) => (
+      data.data.tokens.forEach((token) => (
         element += `<div class="assets_items">
         <img class="assets_items_img"
         src="./assets/icons/favicon.png"

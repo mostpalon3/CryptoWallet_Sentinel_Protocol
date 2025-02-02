@@ -14,8 +14,8 @@ app.options('*', cors());
 
 
 //Routes
-app.use('/user', userRouter);
-app.use('/token', tokenRouter);
-app.use('/account', accountRouter);
+app.use('/api/v1/user', userRouter);
+app.use('/api/v1/tokens', tokenRouter);
+app.use('/api/v1/accounts', accountRouter);
 
 module.exports = app;
