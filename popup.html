@@ -309,12 +309,43 @@
               Import
             </button>
 
-            <div id="accountList" class="accountList"></div>
+            <!-- <div id="accountList" class="accountList"></div> -->
           </div>
         </div>
         <!-- End of the Import Component -->
 
-        <!-- Import account  -->
+        <!-- Import Account new not recorded -->
+        <div id="import_account" class="import_account">
+          <div class="form">
+            <img
+              src="assets/arrowleft.png"
+              alt=""
+              id="close_import_account"
+              class="goBack"
+            />
+            <p id="heading">Import Account</p>
+            <div class="field">
+              <img src="assets/SVG/@.svg" alt="" />
+              <textarea
+                name=""
+                cols="30"
+                rows="5"
+                id="add_account_private_key"
+                class="input-field"
+              ></textarea>
+            </div>
+
+            <button id="add_New_Account" class="button3 connectWallet">
+              Import
+            </button>
+            <div class="accountList" id="accountList">
+              <!-- dynamic account list -->
+            </div>
+          </div>
+        </div>
+        <!-- end of import account  -->
+
+        <!-- Main Body  -->
         <div class="home" id="home">
           <div class="home_header">
             <div>
@@ -331,19 +362,19 @@
 
           <div class="home_features">
             <div class="home_features_item">
-              <img src="assets/buy.png" class="home_features_img" alt="">
+              <img src="assets/buy.png" class="home_features_img" alt="" />
               <p class="text">Buy</p>
             </div>
-            <div class="home_features_item">
-              <img src="assets/send.png" class="home_features_img" alt="">
+            <div class="home_features_item" id="open_Transfer">
+              <img src="assets/send.png" class="home_features_img" alt="" />
               <p class="text">Send</p>
             </div>
-            <div class="home_features_item">
-              <img src="assets/user.png" class="home_features_img" alt="">
+            <div class="home_features_item" id="openAccountImport">
+              <img src="assets/user.png" class="home_features_img" alt="" />
               <p class="text">Account</p>
             </div>
-            <div class="home_features_item">
-              <img src="assets/import.png" class="home_features_img" alt="">
+            <div class="home_features_item" id="open_Import">
+              <img src="assets/import.png" class="home_features_img" alt="" />
               <p class="text">Import</p>
             </div>
           </div>
@@ -357,29 +388,37 @@
           <div class="space"></div>
 
           <!-- Assets  -->
-           <div class="assets" id="assets"></div>
+          <div class="assets" id="assets"></div>
 
-           <!-- Activity  -->
-            <div class="activity" id="activity">
-              <div class="assets_items">
-                <img src="assets/icons/favicon.png" class="assets_items_img" alt="">
+          <!-- Activity  -->
+          <div class="activity" id="activity">
+            <div class="assets_items">
+              <img
+                src="assets/icons/favicon.png"
+                class="assets_items_img"
+                alt=""
+              />
 
-                <!-- u can store this data of the transaction in the local browser from there u can fetch and render , or u can save in api and fetch and do the transfer -->
-                <span>33389abc84..</span>
-                <span>0.45 MATIC</span>
-              </div>
-              <div class="assets_items">
-                <img src="assets/icons/favicon.png" class="assets_items_img" alt="">
-
-                <span>33389abc84..</span>
-                <span>0.45 MATIC</span>
-              </div>
+              <!-- u can store this data of the transaction in the local browser from there u can fetch and render , or u can save in api and fetch and do the transfer -->
+              <span>33389abc84..</span>
+              <span>0.45 MATIC</span>
             </div>
+            <div class="assets_items">
+              <img
+                src="assets/icons/favicon.png"
+                class="assets_items_img"
+                alt=""
+              />
+
+              <span>33389abc84..</span>
+              <span>0.45 MATIC</span>
+            </div>
+          </div>
         </div>
         <!-- End of the Import account -->
       </div>
     </div>
 
-    <script src="popup.js" type="module" ></script>
+    <script src="popup.js" type="module"></script>
   </body>
 </html>

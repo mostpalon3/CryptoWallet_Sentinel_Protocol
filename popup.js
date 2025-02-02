@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("logout").addEventListener("click", logout);
   document.getElementById("open_Transfer").addEventListener("click", openTransfer);
   document.getElementById("goBack").addEventListener("click", goBack);
+  document.getElementById("goBack_import").addEventListener("click", importGoBack);
   document.getElementById("open_Import").addEventListener("click", openImport);
   document.getElementById("open_assets").addEventListener("click", openAssets);
   document.getElementById("open_activity").addEventListener("click", openActivity);
@@ -29,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
 let providerURL =
   "https://polygon-amoy.g.alchemy.com/v2/iZxSf_B6FkbG4Q76H19Essc_hxN2s0rI";
 
-// let provider;
 let privateKey;
 let address;
 
@@ -41,8 +41,8 @@ function handler() {
   const amount = document.getElementById("amount").value;
   const address = document.getElementById("address").value;
 //   const private_key = document.getElementById("private_key").value;
-  const private_key = "c31f7ef7384419859659c691ac72a84500143b21be1bfde31165f678acd75614";
-  const testAccount = "0x1D9e26033fa2cBEf118EDfAE3361Ec5BF738C16A";
+  // const private_key = "c31f7ef7384419859659c691ac72a84500143b21be1bfde31165f678acd75614";
+  // const testAccount = "0x1D9e26033fa2cBEf118EDfAE3361Ec5BF738C16A";
 
 
   //Provider
@@ -67,7 +67,7 @@ function handler() {
     console.log("txHash: ", txObj.hash);
     document.getElementById("transfer_center").style.display = "none";
     const a = document.getElementById("link");
-    // a.href = `https://polygonscan.com/tx/${txObj.hash}`;
+    a.href = `https://polygonscan.com/tx/${txObj.hash}`;
     document.getElementById("link").style.display = "block";
   });
 }
@@ -252,12 +252,12 @@ function logout() {
 }
 
 function openTransfer() {
-  document.getElementById("transfer_from").style.display = "block";
+  document.getElementById("transfer_form").style.display = "block";
   document.getElementById("home").style.display = "none";
 }
 
 function goBack() {
-  document.getElementById("transfer_from").style.display = "none";
+  document.getElementById("transfer_form").style.display = "none";
   document.getElementById("home").style.display = "block";
 }
 
@@ -359,7 +359,7 @@ function myFunction() {
     const str = localStorage.getItem('userWallet');
     const parseObj = JSON.parse(str);
 
-    if(parseObj.address){
+    if(parseObj?.address){
       document.getElementById("LoginUser").style.display = "none";
       document.getElementById("home").style.display = "block";
 
@@ -369,17 +369,17 @@ function myFunction() {
       checkBalance(parseObj.address); 
     }
 
-    const tokenRender = querySelector(".assets");
-    const accountRender = querySelector(".accountList");
+    const tokenRender = document.querySelector(".assets");
+    const accountRender = document.querySelector(".accountList");
 
     const url = 'http://localhost:3000/api/v1/tokens/alltoken';
     fetch(url).then((response) => response.json()).then((data) => {
       let element = "";
 
       data.data.tokens.map((token) => (
-        element += `<div class="assets_item">
-        <img class="assets_item_img"
-        src="./assets/theblockchaincoders.png"
+        element += `<div class="assets_items">
+        <img class="assets_items_img"
+        src="./assets/icons/favicon.png"
         alt=""
         />
         <span>${token.address.slice(0,15)}...</span>
