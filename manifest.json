@@ -5,16 +5,15 @@
     "manifest_version":3,
     "action":{
         "default_popup":"popup.html",
-        "default_icon":"favicon.png"
+        "default_icon":"assets/icons/favicon-32x32.png"
     },
     "icons":{
-        "16":"src/icons/favicon-16x16.png",
-        "32":"src/icons/favicon-32x32.png",
-        "48":"src/icons/favicon.ico",
-        "192":"src/icons/android-chrome-192x192.png",
-        "300":"src/icons/favicon.png",
-        "512":"src/icons/android-chrome-512x512.png",
-        "apple-touch-icon-180x180":"src/icons/apple-touch-icon.png"
+        "16":"assets/icons/favicon-16x16.png",
+        "32":"assets/icons/favicon-32x32.png",
+        "48":"assets/icons/favicon.ico",
+        "192":"assets/icons/android-chrome-192x192.png",
+        "300":"assets/icons/favicon.png",
+        "512":"assets/icons/android-chrome-512x512.png"
     },
     "permissions":[
         "tabs",
