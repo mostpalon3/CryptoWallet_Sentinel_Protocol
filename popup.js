@@ -1,4 +1,4 @@
-import { ethers } from "./node_modules/ethers/dist/ethers.min.js";
+// import { ethers } from "./ethers.umd.min.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("accountList").addEventListener("click", changeAccount);
@@ -73,18 +73,17 @@ function handler() {
 }
 
 function checkBalance(address) {
-  //Provider
-  const provider = new ethers.JsonRpcProvider(
-    providerURL
-  );
+  // Provider
+  const provider = new ethers.JsonRpcProvider(providerURL);
+  
   provider.getBalance(address).then((balance) => {
-const baclanceInEth = ethers.utils.formatEther(balance);
-document.getElementById(
-  "account_balance"
-).innerHTML = `Balance: ${baclanceInEth} MATIC`;
-document.getElementById(
-  "userAddress"
-).innerHTML = `Balance: ${address.slice(0,15)}...`;
+    const balanceInEth = ethers.formatEther(balance);
+    document.getElementById(
+      "account_balance"
+    ).innerHTML = `${balanceInEth} MATIC`;
+    document.getElementById(
+      "userAddress"
+    ).innerHTML = `${address.slice(0,15)}...`;
   });
 }
 
@@ -242,6 +241,7 @@ function login() {
       privateKey: result.data.user.private_key,
       mnemonic: result.data.user.mnemonic
     }
+    console.log(userWallet);
 
     const jsonObj = JSON.stringify(userWallet);
     localStorage.setItem('userWallet', jsonObj);
@@ -308,7 +308,7 @@ function addToken() {
 
   //API CALL 
 
-  const url = 'http://localhost:3000/api/v1/createtoken';
+  const url = 'http://localhost:3000/api/v1/tokens/createtoken';
   const data = {
     name: name,
     address: address,
@@ -331,13 +331,13 @@ function addToken() {
 
 function addAccount() {
   const privateKey = document.getElementById("add_account_private_key").value;
-  const provider = new ethers.providers.JsonRpcProvider(providerURL);
+  const provider = new ethers.JsonRpcProvider(providerURL);
 
   let wallet = new ethers.Wallet(privateKey, provider);
 
   console.log(wallet);
 
-  const url = 'http://localhost:3000/api/v1/createaccount';
+  const url = 'http://localhost:3000/api/v1/accounts/createaccount';
 
   const data = {
     address: wallet.address,
@@ -370,8 +370,9 @@ function myFunction() {
 
       privateKey = parseObj.private_key;
       address = parseObj.address;
+      console.log(privateKey);
 
-      checkBalance(parseObj.address); 
+      checkBalance(address); 
     }
 
     const tokenRender = document.querySelector(".assets");
@@ -393,7 +394,7 @@ function myFunction() {
       );
       tokenRender.innerHTML = element;
     }).catch((error) => {
-      console.error('Error:', error);
+      console.log('Error:', error);
     });
 
     fetch('http://localhost:3000/api/v1/accounts/allaccounts').then((response) => response.json()).then((data) => {
@@ -416,23 +417,30 @@ function myFunction() {
 
 function copyAddress() {
   navigator.clipboard.writeText(address);
+  alert("Address copied to clipboard");
 }
 
-function changeAccount() {
-  const data = document.querySelectorAll(".accountValue");
+function changeAccount(event) {
+  event.preventDefault();
+
+  const data = event.currentTarget;
   const address = data.getAttribute("data-address");
   const privateKey = data.getAttribute("data-privateKey");
 
-  console.log(privateKey, address);
+  if (!address || !privateKey) {
+    console.error("Missing account details");
+    return;
+  }
 
-  const userWallet = {
-    address: address,
-    privateKey: privateKey,
-    mnemonic: "Changed"
-  };
+  console.log("Switching to account:", address);
 
-  const jsonObj = JSON.stringify(userWallet);
-  localStorage.setItem('userWallet', jsonObj);
+  let accounts = JSON.parse(localStorage.getItem("userWallets")) || [];
+
+  accounts = accounts.filter(account => account.address !== address);
+
+  accounts.push({ address, privateKey, mnemonic: "Changed" });
+
+  localStorage.setItem("userWallets", JSON.stringify(accounts));
 
   window.location.reload();
 }
