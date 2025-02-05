@@ -11,8 +11,7 @@
         "16":"assets/icons/favicon-16x16.png",
         "32":"assets/icons/favicon-32x32.png",
         "48":"assets/icons/favicon.ico",
-        "192":"assets/icons/android-chrome-192x192.png",
-        "300":"assets/icons/favicon.png",
+        "128":"assets/icons/android-chrome-192x192.png",
         "512":"assets/icons/android-chrome-512x512.png"
     },
     "permissions":[
